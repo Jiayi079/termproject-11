@@ -57,11 +57,11 @@ public class Parser {
   private Token currentToken;
   private Lexer lex;
   private EnumSet<TokenTypes> relationalOps =
-      EnumSet.of(TokenTypes.Equal, TokenTypes.NotEqual, TokenTypes.Less, TokenTypes.LessEqual);
+          EnumSet.of(TokenTypes.Equal, TokenTypes.NotEqual, TokenTypes.Less, TokenTypes.LessEqual);
   private EnumSet<TokenTypes> addingOps =
-      EnumSet.of(TokenTypes.Plus, TokenTypes.Minus, TokenTypes.Or);
+          EnumSet.of(TokenTypes.Plus, TokenTypes.Minus, TokenTypes.Or);
   private EnumSet<TokenTypes> multiplyingOps =
-      EnumSet.of(TokenTypes.Multiply, TokenTypes.Divide, TokenTypes.And);
+          EnumSet.of(TokenTypes.Multiply, TokenTypes.Divide, TokenTypes.And);
 
   /**
    * Construct a new Parser;
@@ -138,6 +138,13 @@ public class Parser {
     while (true) {  // get statements
       try {
         t.addKid(rStatement());
+      } catch (SyntaxError e) {
+        break;
+      }
+    }
+    while (true) {  // get decls // lazy fix
+      try {
+        t.addKid(rDecl());
       } catch (SyntaxError e) {
         break;
       }
@@ -478,7 +485,7 @@ class SyntaxError extends Exception {
 
   void print() {
     System.out.println("Expected: " +
-        kindExpected);
+            kindExpected);
     return;
   }
 }
